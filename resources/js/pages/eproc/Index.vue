@@ -20,6 +20,10 @@ interface Props {
             link_website: string | null;
             keterangan: string | null;
             created_at: string;
+            updated_at: string | null;
+            updated_user: Array<{
+                name: string;
+            }>;
         }>;
         links: Array<{
             url: string | null;
@@ -67,6 +71,21 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: eproc_index().url,
     },
 ];
+
+const formatDate = (dateString: string | null) => {
+    if (!dateString) return '-';
+
+    const date = new Date(dateString);
+    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${day} ${month} ${year}, ${hours}:${minutes}`;
+};
 </script>
 
 <template>
@@ -92,6 +111,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <th class="p-3 text-left font-medium">Link Website</th>
                             <th class="p-3 text-left font-medium">Keterangan</th>
                             <th class="p-3 text-left font-medium">Created At</th>
+                            <th class="p-3 text-left font-medium">Updated At</th>
+                            <th class="p-3 text-left font-medium">By</th>
                             <th class="p-3 text-right font-medium">Actions</th>
                         </tr>
                     </thead>
@@ -100,7 +121,9 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <td class="p-3">{{ eproc.nama_perusahaan_rekanan }}</td>
                             <td class="p-3">{{ eproc.link_website || '-' }}</td>
                             <td class="p-3">{{ eproc.keterangan || '-' }}</td>
-                            <td class="p-3">{{ eproc.created_at }}</td>
+                            <td class="p-3">{{ formatDate(eproc.created_at) }}</td>
+                            <td class="p-3">{{ formatDate(eproc.updated_at) }}</td>
+                            <td class="p-3">{{ eproc.updated_user?.name }}</td>
                             <td class="p-3 text-right">
                                 <div class="flex justify-end gap-2">
                                     <Link :href="eproc_show(eproc.id).url">
@@ -114,30 +137,15 @@ const breadcrumbs: BreadcrumbItem[] = [
                                             <Button variant="destructive" @click="openDialog = eproc.id">Delete</Button>
                                         </DialogTrigger>
                                         <DialogContent>
-                                            <Form
-                                                :action="eproc_destroy(eproc.id).url"
-                                                method="post"
-                                                class="space-y-6"
-                                            >
+                                            <Form :action="eproc_destroy(eproc.id).url" method="post" class="space-y-6">
                                                 <input type="hidden" name="_method" value="delete" />
                                                 <DialogHeader class="space-y-3">
                                                     <DialogTitle>Yakin hapus eproc ini?</DialogTitle>
                                                 </DialogHeader>
                                                 <DialogDescription />
                                                 <DialogFooter class="gap-2">
-                                                    <Button
-                                                        type="button"
-                                                        variant="secondary"
-                                                        @click="openDialog = null"
-                                                    >
-                                                        Cancel
-                                                    </Button>
-                                                    <Button
-                                                        type="submit"
-                                                        variant="destructive"
-                                                    >
-                                                        Delete
-                                                    </Button>
+                                                    <Button type="button" variant="secondary" @click="openDialog = null"> Cancel </Button>
+                                                    <Button type="submit" variant="destructive"> Delete </Button>
                                                 </DialogFooter>
                                             </Form>
                                         </DialogContent>
