@@ -182,34 +182,33 @@ const getActionColor = (action: string) => {
                                 <span class="text-right text-xs text-muted-foreground">{{ formatDate(log.created_at) }}</span>
                             </div>
 
-                            <div v-if="log.action === 'update' && log.old_data && log.new_data" class="mt-3">
+                            <div class="mt-3">
                                 <div class="grid gap-2 text-sm">
                                     <div class="hidden gap-2 md:grid md:grid-cols-3">
                                         <span class="text-muted-foreground">Field</span>
                                         <span class="text-muted-foreground">Lama</span>
                                         <span class="text-muted-foreground">Baru</span>
                                     </div>
-                                    <template v-for="(value, key) in log.old_data" :key="key">
+                                    <template v-for="(value, key) in log.new_data" :key="key">
                                         <template
                                             v-if="
                                                 key !== 'id' &&
                                                 key !== 'user_id' &&
-                                                key !== 'password' &&
                                                 key !== 'created_at' &&
                                                 key !== 'updated_date'
                                             "
                                         >
                                             <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
                                                 <span class="font-medium capitalize">{{ key.replace(/_/g, ' ') }}</span>
-                                                <span class="break-all text-red-500">{{ String(value) }}</span>
-                                                <span class="break-all text-green-500">{{ String(log.new_data[key] ?? '-') }}</span>
+                                                <span class="break-all text-red-500">{{ String(  key === 'updated_at' ? formatDate(log.old_data?.[key]) : log.old_data?.[key] ?? '-') }}</span>
+                                                <span class="break-all text-green-500">{{ key === 'updated_at' ? formatDate(value) : String(value) }}</span>
                                             </div>
                                         </template>
                                     </template>
                                 </div>
                             </div>
 
-                            <div v-else-if="log.action === 'create' && log.new_data" class="mt-3">
+                            <!-- <div v-else-if="log.action === 'create' && log.new_data" class="mt-3">
                                 <div class="text-sm">
                                     <div class="mb-2 text-muted-foreground">Data yang dibuat:</div>
                                     <pre class="overflow-x-auto rounded bg-muted p-2 text-xs break-all">{{
@@ -225,7 +224,7 @@ const getActionColor = (action: string) => {
                                         JSON.stringify(log.old_data, null, 2)
                                     }}</pre>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

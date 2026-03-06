@@ -11,12 +11,14 @@ import { useToast } from '@/composables/useToast';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { user_index, user_update } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
+import Select from '@/components/ui/select/Select.vue';
 
 interface Props {
     user: {
         id: number;
         name: string;
         email: string;
+        role: string;
     };
 }
 
@@ -85,6 +87,14 @@ const breadcrumbs: BreadcrumbItem[] = [
                         placeholder="Full name"
                     />
                     <InputError v-if="(page.props.errors as Record<string, string>).name" class="mt-2" :message="(page.props.errors as Record<string, string>).name" />
+                </div>
+                <div class="grid gap-2">
+                    <Label for="role">Role</Label>
+                    <Select id="role" name="role" required autocomplete="role" placeholder="Select role" :default-value="user.role">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </Select>
+                    <InputError v-if="(page.props.errors as Record<string, string>).role" class="mt-2" :message="(page.props.errors as Record<string, string>).role" />
                 </div>
 
                 <div class="grid gap-2">

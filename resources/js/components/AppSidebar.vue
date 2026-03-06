@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { FilePenLine, FileText, LayoutGrid, User } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -19,28 +20,38 @@ import { type NavItem } from '@/types';
 
 import AppLogo from './AppLogo.vue';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Input E-Proc',
-        href: eproc_create(),
-        icon: FilePenLine,
-    },
-    {
-        title: 'Data E-Proc',
-        href: eproc_index(),
-        icon: FileText,
-    },
-    {
-        title: 'User',
-        href: user_index(),
-        icon: User,
-    },
-];
+const page = usePage();
+const user = computed(() => page.props.auth.user);
+
+const mainNavItems = computed<NavItem[]>(() => {
+    const items: NavItem[] = [
+        {
+            title: 'Dashboard',
+            href: dashboard(),
+            icon: LayoutGrid,
+        },
+        {
+            title: 'Input E-Proc',
+            href: eproc_create(),
+            icon: FilePenLine,
+        },
+        {
+            title: 'Data E-Proc',
+            href: eproc_index(),
+            icon: FileText,
+        },
+    ];
+
+    if (user.value?.role === 'admin') {
+        items.push({
+            title: 'User',
+            href: user_index(),
+            icon: User,
+        });
+    }
+
+    return items;
+});
 
 const footerNavItems: NavItem[] = [];
 </script>

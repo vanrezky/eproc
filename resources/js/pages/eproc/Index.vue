@@ -103,7 +103,7 @@ const formatDate = (dateString: string | null) => {
                 </Link>
             </div>
 
-            <div class="overflow-hidden rounded-md border">
+            <div class="overflow-hidden overflow-x-auto rounded-md border">
                 <table class="w-full text-sm">
                     <thead class="border-b bg-muted/50">
                         <tr>

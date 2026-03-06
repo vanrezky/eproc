@@ -15,7 +15,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::select(['id', 'name', 'email', 'created_at'])->paginate(10);
+        $this->authorize('admin');
+
+        $users = User::select(['id', 'name', 'email', 'created_at', 'role'])->paginate(10);
 
         return Inertia::render('User/Index', [
             'users' => $users,
@@ -39,12 +41,14 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|string|in:admin,user',
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
         ]);
 
         return Redirect::route('user/index')->with('success', 'User berhasil dibuat.');
@@ -67,7 +71,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::select(['id', 'name', 'email'])->findOrFail($id);
+        $user = User::select(['id', 'name', 'email', 'role'])->findOrFail($id);
 
         return Inertia::render('User/Edit', [
             'user' => $user,
@@ -84,11 +88,13 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'role' => 'required|string|in:admin,user',
         ]);
 
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'role' => $request->role,
         ]);
 
         if ($request->password) {

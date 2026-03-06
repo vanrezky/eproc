@@ -49,7 +49,7 @@ const formatDate = (dateString: string | null) => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-            <div class="overflow-hidden rounded-md border">
+            <div class="overflow-hidden rounded-md border overflow-x-auto">
                 <div class="border-b bg-muted/50 p-3">
                     <h2 class="font-semibold">Eproc Terbaru</h2>
                 </div>

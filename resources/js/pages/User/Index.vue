@@ -19,6 +19,7 @@ interface Props {
             id: number;
             name: string;
             email: string;
+            role: string;
             created_at: string;
         }>;
         links: Array<{
@@ -84,12 +85,13 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </Link>
             </div>
 
-            <div class="overflow-hidden rounded-md border">
+            <div class="overflow-hidden rounded-md border overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead class="border-b bg-muted/50">
                         <tr>
                             <th class="p-3 text-left font-medium">Name</th>
                             <th class="p-3 text-left font-medium">Email</th>
+                            <th class="p-3 text-left font-medium">Role</th>
                             <th class="p-3 text-left font-medium">Created At</th>
                             <th class="p-3 text-right font-medium">Actions</th>
                         </tr>
@@ -98,6 +100,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <tr v-for="user in users.data" :key="user.id" class="border-b last:border-0 hover:bg-muted/25">
                             <td class="p-3">{{ user.name }}</td>
                             <td class="p-3">{{ user.email }}</td>
+                            <td class="p-3">{{ user.role }}</td>
                             <td class="p-3">{{ user.created_at }}</td>
                             <td class="p-3 text-right">
                                 <div class="flex justify-end gap-2">

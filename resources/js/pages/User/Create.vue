@@ -7,6 +7,7 @@ import Toast from '@/components/Toast.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select } from '@/components/ui/select';
 import { useToast } from '@/composables/useToast';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { user_index, user_store } from '@/routes';
@@ -72,6 +73,14 @@ const breadcrumbs: BreadcrumbItem[] = [
                         placeholder="Full name"
                     />
                     <InputError v-if="(page.props.errors as Record<string, string>).name" class="mt-2" :message="(page.props.errors as Record<string, string>).name" />
+                </div>
+                 <div class="grid gap-2">
+                    <Label for="role">Role</Label>
+                    <Select id="role" name="role" required placeholder="Select role" :default-value="'user'">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </Select>
+                    <InputError v-if="(page.props.errors as Record<string, string>).role" class="mt-2" :message="(page.props.errors as Record<string, string>).role" />
                 </div>
 
                 <div class="grid gap-2">
