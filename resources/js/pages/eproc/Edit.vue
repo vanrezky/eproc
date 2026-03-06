@@ -22,6 +22,7 @@ interface Props {
     };
 }
 
+
 const props = defineProps<Props>();
 
 const page = usePage();
@@ -137,7 +138,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         autocomplete="off"
                         placeholder="Keterangan"
                         rows="4"
-                    ></textarea>
+                    >{{ eproc.keterangan }}</textarea>
                     <InputError v-if="(page.props.errors as Record<string, string>).keterangan" class="mt-2" :message="(page.props.errors as Record<string, string>).keterangan" />
                 </div>
 

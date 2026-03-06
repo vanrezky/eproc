@@ -201,7 +201,7 @@ const getActionColor = (action: string) => {
                                             <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
                                                 <span class="font-medium capitalize">{{ key.replace(/_/g, ' ') }}</span>
                                                 <span class="break-all text-red-500">{{ String(  key === 'updated_at' ? formatDate(log.old_data?.[key]) : log.old_data?.[key] ?? '-') }}</span>
-                                                <span class="break-all text-green-500">{{ key === 'updated_at' ? formatDate(value) : String(value) }}</span>
+                                                <span class="break-all text-green-500">{{ key === 'updated_at' ? formatDate(value) : String(value ?? '-') }}</span>
                                             </div>
                                         </template>
                                     </template>
