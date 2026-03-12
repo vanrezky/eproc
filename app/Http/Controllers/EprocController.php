@@ -150,15 +150,6 @@ class EprocController extends Controller
 
         $eproc->delete();
 
-        // Log delete action
-        EprocLog::create([
-            'eproc_id' => $oldData['id'],
-            'user_id' => Auth::id(),
-            'action' => 'delete',
-            'old_data' => $oldData,
-            'new_data' => null,
-        ]);
-
         return Redirect::route('eproc/index')->with('success', 'Eproc berhasil dihapus.');
     }
 }

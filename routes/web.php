@@ -38,6 +38,6 @@ Route::controller(UserController::class)->prefix('user')->middleware(['auth'])->
     Route::delete('/{id}', 'destroy')->middleware(['auth'])->name('user/destroy');
 });
 
-// Route::controller()
+Route::get('/api/search', \App\Http\Controllers\SearchController::class)->middleware(['auth'])->name('api.search');
 
 require __DIR__ . '/settings.php';
